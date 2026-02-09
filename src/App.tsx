@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowRight, X, Loader2, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, X, Loader2, CircleCheckBig } from 'lucide-react';
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -99,12 +99,12 @@ function App() {
 
             {status === 'success' ? (
               <div className="flex flex-col items-center justify-center py-8 text-center animate-in fade-in zoom-in duration-300">
-                <CheckCircle2 className="w-16 h-16 text-green-500 mb-6" />
+                <CircleCheckBig className="w-16 h-16 text-white mb-6" />
                 <h3 className="text-2xl font-medium tracking-tight text-white mb-2">You're on the list.</h3>
                 <p className="text-neutral-400">We'll message you when we launch.</p>
                 <button
                   onClick={() => setIsModalOpen(false)}
-                  className="mt-8 text-sm text-white/60 hover:text-white border-b border-transparent hover:border-white transition-all"
+                  className="mt-8 cursor-pointer text-sm text-white/60 hover:text-white border-b border-transparent hover:border-white transition-all"
                 >
                   Close
                 </button>
