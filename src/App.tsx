@@ -10,7 +10,7 @@ function App() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
+
     try {
       // The netlify.toml file redirects this to your function
       const res = await fetch('/api/join-waitlist', {
@@ -18,7 +18,7 @@ function App() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ phone }),
       });
-      
+
       if (!res.ok) throw new Error('Failed');
       setStatus('success');
       setPhone('');
@@ -32,10 +32,10 @@ function App() {
 
   return (
     <div className="relative h-screen w-full overflow-hidden bg-black text-white font-sans selection:bg-white selection:text-black">
-      
+
       {/* Background & Overlay */}
       <div className="absolute inset-0 z-0">
-        <img 
+        <img
           src="https://images.unsplash.com/photo-1493238792000-8113da705763?q=80&w=2670&auto=format&fit=crop"
           alt="Background"
           className="h-full w-full object-cover opacity-90"
@@ -63,7 +63,7 @@ function App() {
         </p>
 
         {/* Trigger Button */}
-        <button 
+        <button
           onClick={() => setIsModalOpen(true)}
           className="group cursor-pointer flex items-center gap-3 text-sm font-medium tracking-widest uppercase transition-all hover:text-white/80"
         >
@@ -84,13 +84,13 @@ function App() {
       {/* --- THE MODAL --- */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
-          <div 
-            className="absolute inset-0 bg-black/80 backdrop-blur-sm" 
+          <div
+            className="absolute inset-0 bg-black/80 backdrop-blur-sm"
             onClick={() => setIsModalOpen(false)}
           />
-          
+
           <div className="relative w-full max-w-md bg-neutral-900 border border-white/10 p-10 shadow-2xl">
-            <button 
+            <button
               onClick={() => setIsModalOpen(false)}
               className="absolute cursor-pointer top-4 right-4 text-white/40 hover:text-white transition-colors"
             >
@@ -102,7 +102,7 @@ function App() {
                 <CheckCircle2 className="w-16 h-16 text-green-500 mb-6" />
                 <h3 className="text-2xl font-medium tracking-tight text-white mb-2">You're on the list.</h3>
                 <p className="text-neutral-400">We'll message you when we launch.</p>
-                <button 
+                <button
                   onClick={() => setIsModalOpen(false)}
                   className="mt-8 text-sm text-white/60 hover:text-white border-b border-transparent hover:border-white transition-all"
                 >
@@ -117,24 +117,29 @@ function App() {
                 </div>
 
                 <div className="relative group">
-                  <input 
-                    type="tel" 
+                  <input
+                    type="tel"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
                     required
                     placeholder="WhatsApp Number (e.g. 080...)"
                     value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
+                    onChange={(e) => {
+                      const numericValue = e.target.value.replace(/\D/g, '');
+                      setPhone(numericValue);
+                    }}
                     className="w-full bg-transparent border-b border-white/20 py-3 text-xl text-white outline-none placeholder:text-neutral-700 focus:border-white transition-colors"
                   />
                 </div>
 
-                <button 
-                  type="submit" 
+                <button
+                  type="submit"
                   disabled={isLoading}
                   className="w-full bg-white cursor-pointer text-black font-bold py-4 hover:bg-neutral-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
                   {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : "NOTIFY ME"}
                 </button>
-                
+
                 {status === 'error' && (
                   <p className="text-red-500 text-xs text-center">Something went wrong. Please try again.</p>
                 )}
